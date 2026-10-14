@@ -7,6 +7,12 @@ for new questions drawn from the same distribution.
 Thresholds are tested from strictest to loosest with an exact binomial test
 and the procedure stops at the first non-rejection (fixed-sequence testing),
 which controls the family-wise error without a multiple-comparison correction.
+
+The grid is fixed in advance. A threshold that answers fewer than ``min_n``
+calibration questions is skipped rather than tested: at n=0 or n=1 no test can
+reject, and stopping there would end the sequence before any useful threshold.
+The skip depends only on the count n, and given n the number of errors is
+Binomial(n, risk), so each test that is run stays valid.
 """
 
 from __future__ import annotations
@@ -31,7 +37,7 @@ def binomial_pvalue(n: int, k: int, alpha: float) -> float:
 
 
 def learn_then_test(conf: np.ndarray, correct: np.ndarray, alpha: float, delta: float,
-                    grid: np.ndarray | None = None) -> LTTResult:
+                    grid: np.ndarray | None = None, min_n: int = 20) -> LTTResult:
     conf = np.asarray(conf, float)
     correct = np.asarray(correct, bool)
     if grid is None:
@@ -42,6 +48,8 @@ def learn_then_test(conf: np.ndarray, correct: np.ndarray, alpha: float, delta: 
         mask = conf >= lam
         n = int(mask.sum())
         k = int((~correct[mask]).sum())
+        if n < min_n:
+            continue
         p = binomial_pvalue(n, k, alpha)
         ok = p <= delta
         tested.append((float(lam), n, k, p, ok))

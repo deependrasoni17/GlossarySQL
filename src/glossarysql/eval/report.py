@@ -20,14 +20,16 @@ from glossarysql.eval.run import load_config  # noqa: E402
 from glossarysql.eval.stats import bootstrap_ci, gap_closed, mcnemar_exact  # noqa: E402
 
 MAIN = ["A", "B", "C", "D", "E", "F"]
-EXTRA = ["Cg", "Cg2", "Cf", "E2", "E_ft", "D_full", "E_full", "E2_full", "F_full",
+EXTRA = ["Cg", "Cg2", "Cf", "E2", "E_ft", "D_full", "E_full", "E2_full", "E_oracle_full", "F_full",
          "D_32b", "E_32b", "F_32b", "D_full_32b", "E2_full_32b", "F_full_32b"]
 PAIRS = [("A", "B"), ("B", "C"), ("C", "D"), ("D", "E"), ("D", "E2"), ("D", "F"), ("E", "F"),
          ("C", "Cg"), ("C", "Cg2"), ("C", "Cf"), ("E", "E2"), ("E", "E_ft"), ("A", "D_full"),
          ("D", "D_full"), ("D_full", "E_full"), ("D_full", "E2_full"), ("E_full", "E2_full"),
-         ("E2_full", "F_full"), ("D_32b", "E_32b"), ("D_full_32b", "E2_full_32b"),
+         ("E2_full", "F_full"), ("E2_full", "E_oracle_full"), ("E_oracle_full", "F_full"),
+         ("D_32b", "E_32b"), ("D_full_32b", "E2_full_32b"),
          ("E2_full", "E2_full_32b")]
 CALIBRATE = "E2_full"  # the best system with retrieved definitions
+ALPHAS = (0.1, 0.2, 0.25, 0.3)
 
 # Reference palette (dataviz skill): blue = baseline series, orange = proposed system.
 BLUE, ORANGE, AQUA, INK, INK2, GRID, SURFACE = ("#2a78d6", "#eb6834", "#1baf7a", "#0b0b0b",
@@ -38,9 +40,13 @@ def load_runs(names) -> dict[str, pd.DataFrame]:
     runs = {}
     for n in names:
         f = paths.RUNS / f"{n}.jsonl"
-        if f.exists():
-            df = pd.read_json(f, lines=True).set_index("question_id").sort_index()
-            runs[n] = df
+        if not f.exists():
+            continue
+        lines = f.read_text().splitlines()
+        if len(lines) < 500:  # still running (or a dry run): report only complete runs
+            print(f"skipping {n}: {len(lines)}/500 questions")
+            continue
+        runs[n] = pd.read_json(f, lines=True).set_index("question_id").sort_index()
     return runs
 
 
@@ -83,7 +89,8 @@ def to_markdown(df: pd.DataFrame) -> str:
 
 
 def plot_ex(table: pd.DataFrame, runs) -> None:
-    order = [n for n in MAIN + ["E2", "E_ft", "D_full", "E_full", "E2_full", "F_full"] if n in runs]
+    order = [n for n in MAIN + ["E2", "E_ft", "D_full", "E_full", "E2_full", "E_oracle_full", "F_full"]
+             if n in runs]
     fig, ax = plt.subplots(figsize=(10, 3.8), dpi=150)
     fig.patch.set_facecolor(SURFACE)
     _style(ax)
@@ -110,43 +117,44 @@ def calibration(runs, extra_scores: dict[str, np.ndarray] | None = None) -> dict
         return out
     df = runs[CALIBRATE]
     correct = df["ex"].values.astype(bool)
-    scores = {"vote agreement": df["confidence"].values}
-    scores.update(extra_scores or {})
-    for name, conf in scores.items():
-        grid = np.unique(conf) if name == "vote agreement" else np.quantile(conf, np.linspace(0, 1, 41))
-        out[name] = [evaluate_splits(conf, correct, a, 0.1, n_splits=100, grid=grid)
-                     for a in (0.1, 0.2, 0.3)]
-    # Risk-coverage plot with the operating points from one calibration on all of E.
-    fig, ax = plt.subplots(figsize=(6.2, 4), dpi=150)
+    vote_grid = np.array([1.0, 0.8, 0.6, 0.4, 0.2])  # fixed in advance: the five vote levels
+    prob_grid = np.round(np.arange(0.95, 0.04, -0.05), 2)  # fixed in advance: steps of 0.05
+    # (label, confidence, correct, grid)
+    curves = [(f"{CALIBRATE}: vote agreement", df["confidence"].values, correct, vote_grid)]
+    for name, conf in (extra_scores or {}).items():
+        curves.append((f"{CALIBRATE}: {name}", conf, correct, prob_grid))
+    strong = f"{CALIBRATE}_32b"
+    if strong in runs:
+        curves.append((f"{strong}: vote agreement", runs[strong]["confidence"].values,
+                       runs[strong]["ex"].values.astype(bool), vote_grid))
+    for label, conf, corr, grid in curves:
+        out[label] = [evaluate_splits(conf, corr, a, 0.1, n_splits=100, grid=grid) for a in ALPHAS]
+
+    fig, ax = plt.subplots(figsize=(6.6, 4.2), dpi=150)
     fig.patch.set_facecolor(SURFACE)
     _style(ax)
     ax.grid(axis="x", color=GRID, linewidth=0.8)
-    for (name, conf), color in zip(scores.items(), (BLUE, ORANGE, AQUA)):
-        cov, risk = risk_coverage(conf, correct)
+    for (label, conf, corr, _), color in zip(curves, (BLUE, ORANGE, AQUA, "#6250d6")):
+        cov, risk = risk_coverage(conf, corr)
         ax.plot(100 * cov, 100 * risk, color=color, linewidth=2, marker="o" if len(cov) < 8 else None,
-                markersize=6, label=name)
-        for r in out[name]:
-            if not np.isnan(r["mean_threshold"]):
+                markersize=6, label=label)
+        for r in out[label]:
+            if not np.isnan(r["mean_threshold"]) and r["mean_coverage"] > 0.01:
                 ax.scatter(100 * r["mean_coverage"], 100 * (1 - r["mean_accuracy_answered"]), s=70,
                            color=color, edgecolor=SURFACE, linewidth=2, zorder=5)
-                if name == "vote agreement":
-                    ax.annotate(f"α={r['alpha']}", (100 * r["mean_coverage"],
-                                                    100 * (1 - r["mean_accuracy_answered"])),
-                                xytext=(6, -12), textcoords="offset points", fontsize=8, color=INK2)
+                ax.annotate(f"α={r['alpha']}", (100 * r["mean_coverage"], 100 * (1 - r["mean_accuracy_answered"])),
+                            xytext=(6, -12), textcoords="offset points", fontsize=8, color=INK2)
     ax.set_xlabel("Coverage: share of questions answered (%)", color=INK2, fontsize=9)
     ax.set_ylabel("Error on answered questions (%)", color=INK2, fontsize=9)
-    ax.set_title(f"Risk-coverage for {CALIBRATE} (dots: LTT operating points, mean of 100 splits)",
+    ax.set_title("Risk-coverage (dots: Learn-then-Test operating points, mean of 100 splits)",
                  fontsize=9, color=INK, loc="left")
-    ax.legend(frameon=False, fontsize=8, labelcolor=INK2)
+    ax.legend(frameon=False, fontsize=7.5, labelcolor=INK2)
     fig.tight_layout()
     fig.savefig(paths.FIGURES / "risk_coverage.png", facecolor=SURFACE)
     plt.close(fig)
-    # One concrete calibration on a fixed half, for the README narrative.
-    rng = np.random.default_rng(0)
-    perm = rng.permutation(len(df))
-    cal = perm[: len(df) // 2]
-    res = learn_then_test(scores["vote agreement"][cal], correct[cal], 0.2, 0.1)
-    out["example_ltt_alpha0.2"] = {"threshold": res.threshold, "tested": res.tested}
+    # Threshold for the demo: LTT on all 500 evaluated questions (the demo's questions are new).
+    res = learn_then_test(df["confidence"].values, correct, 0.3, 0.1, vote_grid)
+    out["demo_threshold_alpha0.3"] = {"threshold": res.threshold, "tested": res.tested}
     return out
 
 
@@ -175,6 +183,7 @@ def main() -> None:
                            ("D", "E2", "F", "7B agent, top-15 schema, glossary def+q top-5 (D/E2/F)"),
                            ("D_full", "E_full", "F_full", "7B agent, full schema, glossary top-3"),
                            ("D_full", "E2_full", "F_full", "7B agent, full schema, glossary def+q top-5"),
+                           ("D_full", "E_oracle_full", "F_full", "7B agent, full schema, ORACLE glossary retrieval"),
                            ("C", "Cg", "Cf", "7B single-shot, glossary top-3 (C/Cg/Cf)"),
                            ("C", "Cg2", "Cf", "7B single-shot, glossary def+q top-5"),
                            ("D_32b", "E_32b", "F_32b", "32B agent, top-15 schema, glossary top-3"),
@@ -204,6 +213,16 @@ def main() -> None:
         if isinstance(rows, list):
             for r in rows:
                 print(name, {k: round(v, 3) if isinstance(v, float) else v for k, v in r.items()})
+    lines = ["| Score | alpha | target acc. | mean acc. answered | mean coverage | violation rate "
+             "| abstain-all rate |", "|---|---|---|---|---|---|---|"]
+    for name, rows in summary["calibration"].items():
+        if isinstance(rows, list):
+            for r in rows:
+                acc = "-" if np.isnan(r["mean_accuracy_answered"]) else f"{100 * r['mean_accuracy_answered']:.1f}%"
+                lines.append(f"| {name} | {r['alpha']} | {100 * r['target_accuracy']:.0f}% | {acc} | "
+                             f"{100 * r['mean_coverage']:.1f}% | {r['violation_rate']:.2f} | "
+                             f"{r['abstain_all_rate']:.2f} |")
+    (paths.TABLES / "calibration.md").write_text("\n".join(lines))
 
 
 if __name__ == "__main__":

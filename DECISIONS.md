@@ -94,3 +94,22 @@ What was chosen, what failed, and why. Times are from the build session (15 Oct 
   unterminated identifier, which crashed the guard node for 1-2 questions per run. Fixed (catch
   `SqlglotError`, regression test added); affected runs were completed with `--resume`, which reruns
   only crashed questions (LLM calls come from the cache).
+- **Learn-then-Test grid (bug found and fixed).** The first version used score quantiles as the grid
+  for learned confidence scores. The strictest threshold then answered ~1 calibration question,
+  its p-value was ~0.8, and fixed-sequence testing stopped at once, so the agent abstained on
+  everything. Now the grid is fixed in advance (vote levels 1.0..0.2; probabilities 0.95..0.05 in
+  steps of 0.05), and thresholds answering fewer than 20 calibration questions are skipped. The
+  skip depends only on n; given n, errors are Binomial(n, risk), so each test run stays valid.
+  Unit test added.
+- **Calibration target.** Unanimous 5/5 votes of E2_full are right only 75.7% of the time (218
+  questions), so alpha=0.1 and alpha=0.2 cannot be certified with ~250 calibration questions; this
+  is reported as a finding. alpha=0.25 was added to the planned {0.1, 0.2, 0.3} to show the trade-off.
+  Extension B scores are out-of-fold predictions from 5-fold CV over all 500 questions, so the
+  model that scores a test question was trained partly on other test questions of that split (never
+  on the question itself).
+- **Oracle glossary retrieval (analysis only, `E_oracle_full`).** Picks the 5 glossary entries closest
+  to the question's hidden hint. This splits the gap: F_full - E_oracle_full is the part the glossary
+  cannot cover (coverage), and E_oracle_full - E2_full is the part a better retriever could still win.
+- **Demo knowledge.** The demo indexes all 500 Mini-Dev questions as knowledge, but excludes a
+  question's own glossary entries and solved example when that exact question is asked, so the
+  example questions do not answer themselves.

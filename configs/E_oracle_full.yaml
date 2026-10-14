@@ -1,0 +1,4 @@
+extends: E2_full
+name: E_oracle_full
+description: Analysis only - glossary entries chosen by similarity to the question's hidden hint (oracle retriever over the same glossary), full schema
+glossary_oracle: true

@@ -5,8 +5,10 @@ from __future__ import annotations
 import threading
 from dataclasses import dataclass, field
 
+import numpy as np
+
 from glossarysql.data import Example, fold_sets, load_minidev
-from glossarysql.ingest.knowledge import GlossaryEntry, build_glossary
+from glossarysql.ingest.knowledge import GlossaryEntry, build_glossary, split_evidence
 from glossarysql.ingest.schema import ColumnDoc, load_schema, load_values
 from glossarysql.retrieval.hybrid import BGE_QUERY_PREFIX, DEFAULT_EMBEDDER, Embedder, HybridIndex
 from glossarysql.retrieval.values import ValueMatch, ValueMatcher
@@ -137,7 +139,16 @@ class KnowledgeBase:
             ctx.examples = [(exs[h.idx], h.dense) for h in hits]
             ctx.scores["example_top_dense"] = hits[0].dense if hits else 0.0
 
-        if cfg.get("glossary_k", 0):
+        if cfg.get("glossary_k", 0) and cfg.get("glossary_oracle", False):
+            # Analysis only: pick the glossary entries closest to the question's own (hidden) hint.
+            # This is the best any retriever could do with the glossary as it exists.
+            entries, _ = self.glossary_index(db_id, fold, cfg.get("glossary_index", "def"))
+            own = split_evidence(evidence)
+            if own and entries:
+                sims = (self.embedder.encode(own) @ self.embedder.encode([g.text for g in entries]).T).max(axis=0)
+                order = [int(i) for i in np.argsort(-sims) if exclude_qid not in entries[int(i)].source_qids]
+                ctx.glossary = [(entries[i], float(sims[i])) for i in order[: cfg["glossary_k"]]]
+        elif cfg.get("glossary_k", 0):
             entries, idx = self.glossary_index(db_id, fold, cfg.get("glossary_index", "def"))
             hits = [h for h in idx.search(question, k=cfg["glossary_k"] + 3)
                     if exclude_qid not in entries[h.idx].source_qids][: cfg["glossary_k"]]

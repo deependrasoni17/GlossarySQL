@@ -35,17 +35,17 @@ from glossarysql.retrieval.knowledge_base import KnowledgeBase  # noqa: E402
 MAX_QUESTIONS_PER_SESSION = int(os.environ.get("GLOSSARYSQL_MAX_Q", "30"))
 
 
-def calibrated_threshold(default: float = 0.6) -> float:
-    """Lowest threshold accepted by Learn-then-Test at alpha=0.2 on configuration E."""
+def calibrated_threshold(default: float = 1.0) -> float:
+    """Lowest vote-agreement threshold accepted by Learn-then-Test (alpha=0.3, delta=0.1) on E2_full."""
     f = paths.TABLES / "summary.json"
     try:
-        t = json.loads(f.read_text())["calibration"]["example_ltt_alpha0.2"]["threshold"]
+        t = json.loads(f.read_text())["calibration"]["demo_threshold_alpha0.3"]["threshold"]
         return float(t) if t is not None else 1.01
     except Exception:  # noqa: BLE001
         return default
 
 
-CFG = load_config(str(paths.CONFIGS / "E.yaml"))
+CFG = load_config(str(paths.CONFIGS / "E2_full.yaml"))
 CFG.update({"explain": True, "hitl": True, "threshold": calibrated_threshold()})
 KB = KnowledgeBase()
 AGENT = GlossarySQLAgent(KB, LLM(), CFG, checkpointer=MemorySaver())

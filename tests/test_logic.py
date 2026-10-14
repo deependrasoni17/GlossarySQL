@@ -48,6 +48,10 @@ def test_ltt_toy_data():
     res = learn_then_test(np.ones(50), np.zeros(50, bool), alpha=0.1, delta=0.1)
     assert res.threshold is None
     assert binomial_pvalue(100, 0, 0.1) < 1e-4
+    # A strict threshold that answers almost nothing is skipped, not a reason to stop.
+    conf2 = np.r_[[0.99], np.full(200, 0.8), np.full(200, 0.2)]
+    correct2 = np.r_[[False], np.ones(200, bool), np.zeros(200, bool)]
+    assert learn_then_test(conf2, correct2, 0.1, 0.1, grid=np.array([0.95, 0.8, 0.2])).threshold == 0.8
     rep = evaluate_splits(conf, correct, 0.1, 0.1, n_splits=20)
     assert rep["violation_rate"] == 0 and abs(rep["mean_coverage"] - 0.5) < 0.1
 

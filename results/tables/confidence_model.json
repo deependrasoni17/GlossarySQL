@@ -1,0 +1,31 @@
+{
+  "n": 500,
+  "base_rate": 0.502,
+  "vote agreement": {
+    "auroc": 0.7792284676554825,
+    "brier": 0.24536000000000005
+  },
+  "logistic regression": {
+    "auroc": 0.8170690731051697,
+    "brier": 0.1699494184497779
+  },
+  "gradient boosting": {
+    "auroc": 0.8135010160162562,
+    "brier": 0.17661411328369084
+  },
+  "logistic_coefficients_standardised": {
+    "empty": -1.246429933979964,
+    "n_groups": -0.8823933758546871,
+    "agreement": 0.4433125434329526,
+    "sql_len": -0.31576180168030993,
+    "n_tables": 0.2227121197086213,
+    "n_ok_share": 0.21306501548801055,
+    "glossary_top": -0.1680460087809732,
+    "example_top": 0.1067439777541963,
+    "log_rows": -0.015144927196910239,
+    "winner_repaired": -0.007592047169992532,
+    "repaired": -0.002509407513017869,
+    "schema_top": 0.0,
+    "schema_mean": 0.0
+  }
+}

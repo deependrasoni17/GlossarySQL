@@ -1,0 +1,22 @@
+| Config | What it adds | n | EX % (95% CI) | Soft F1 | EX simple | EX moderate | EX challenging | Tokens/q | LLM calls/q | Median latency (s) | p95 latency (s) |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| A | Full schema in the prompt, one query, no hints (lower baseline) | 500 | 37.6 [33.6, 41.8] | 40.8 | 56.1 | 32.0 | 24.5 | 3922 | 1.0 | 13.43 | 31.52 |
+| B | + schema retrieval (top-15 columns + keys) and value matching | 500 | 31.8 [27.8, 36.0] | 34.9 | 49.3 | 25.6 | 21.6 | 1496 | 1.0 | 12.39 | 22.2 |
+| C | + 3 retrieved solved examples | 500 | 41.4 [37.0, 45.8] | 44.8 | 56.1 | 38.8 | 26.5 | 1777 | 1.0 | 16.95 | 28.41 |
+| D | + execute/repair loop (max 2) and 5-candidate result voting (best system without definitions) | 500 | 45.2 [41.2, 49.4] | 49.6 | 61.5 | 42.4 | 28.4 | 4122 | 1.94 | 21.65 | 83.8 |
+| E | D + 3 retrieved glossary definitions (proposed system) | 500 | 45.0 [40.6, 49.4] | 49.5 | 58.8 | 42.8 | 30.4 | 4213 | 1.92 | 22.37 | 102.71 |
+| F | D + the benchmark's expert hint for the question (upper bound) | 500 | 53.8 [49.4, 58.0] | 57.4 | 68.9 | 49.6 | 42.2 | 4057 | 1.86 | 59.18 | 260.78 |
+| Cg | C + 3 retrieved glossary definitions, single shot (glossary without the agent loop) | 500 | 41.6 [37.4, 46.0] | 45.4 | 57.4 | 39.6 | 23.5 | 1840 | 1.0 | 13.21 | 25.32 |
+| Cg2 | Cg with improved glossary retrieval (def+q index, top-5), single shot | 500 | 41.0 [36.6, 45.4] | 44.1 | 59.5 | 36.8 | 24.5 | 1872 | 1.0 | 32.15 | 45.93 |
+| Cf | C + the benchmark's expert hint, single shot (upper bound without the agent loop) | 500 | 48.6 [44.4, 52.8] | 51.3 | 64.9 | 44.8 | 34.3 | 1823 | 1.0 | 50.38 | 82.93 |
+| E2 | E with improved glossary retrieval (definitions indexed with the questions they were written for, top-5); chosen by leave-one-out on the knowledge half | 500 | 45.4 [41.2, 50.2] | 49.5 | 60.1 | 42.8 | 30.4 | 4450 | 2.01 | 25.84 | 113.16 |
+| E_ft | E with the contrastively fine-tuned schema retriever (Extension A) | 500 | 45.0 [40.6, 49.4] | 49.7 | 59.5 | 41.2 | 33.3 | 4334 | 1.97 | 12.18 | 54.93 |
+| D_full | D with the full schema in the prompt instead of top-15 schema retrieval (values and examples still retrieved) | 500 | 47.2 [43.2, 51.6] | 52.1 | 62.2 | 46.0 | 28.4 | 9137 | 1.99 | 31.57 | 154.61 |
+| E_full | E with the full schema in the prompt instead of top-15 schema retrieval (values and examples still retrieved) | 500 | 48.6 [44.4, 53.0] | 53.1 | 64.9 | 45.2 | 33.3 | 9088 | 1.96 | 43.92 | 257.75 |
+| E2_full | E2 with the full schema in the prompt | 500 | 50.2 [45.8, 54.6] | 55.3 | 66.9 | 46.4 | 35.3 | 9221 | 1.99 | 50.37 | 203.72 |
+| E_oracle_full | Analysis only - glossary entries chosen by similarity to the question's hidden hint (oracle retriever over the same glossary), full schema | 500 | 50.0 [45.8, 54.2] | 54.6 | 64.2 | 47.6 | 35.3 | 9331 | 2.0 | 31.35 | 118.18 |
+| F_full | F with the full schema in the prompt instead of top-15 schema retrieval (values and examples still retrieved) | 500 | 56.0 [51.8, 60.2] | 60.2 | 68.2 | 53.6 | 44.1 | 9313 | 1.98 | 32.39 | 164.13 |
+| D_32b | D with the stronger Qwen2.5-Coder-32B-Instruct-AWQ (final check) | 500 | 51.0 [46.6, 55.4] | 55.6 | 62.8 | 48.8 | 39.2 | 2703 | 1.2 | 52.33 | 161.86 |
+| E_32b | E with the stronger Qwen2.5-Coder-32B-Instruct-AWQ (final check) | 500 | 51.2 [46.8, 55.4] | 55.5 | 63.5 | 50.4 | 35.3 | 2768 | 1.19 | 48.78 | 148.91 |
+| F_32b | F with the stronger Qwen2.5-Coder-32B-Instruct-AWQ (final check) | 500 | 58.8 [54.4, 63.0] | 62.9 | 67.6 | 56.8 | 51.0 | 2759 | 1.2 | 90.88 | 189.63 |
+| E2_full_32b | E2_full with the stronger Qwen2.5-Coder-32B-Instruct-AWQ (final check) | 500 | 55.4 [51.2, 59.6] | 60.2 | 68.9 | 52.0 | 44.1 | 5726 | 1.19 | 92.48 | 249.19 |

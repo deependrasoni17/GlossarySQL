@@ -1,0 +1,717 @@
+{
+  "main": [
+    {
+      "Config": "A",
+      "n": 500,
+      "EX % (95% CI)": "37.6 [33.6, 41.8]",
+      "EX": 0.376,
+      "Soft F1": 40.8,
+      "EX simple": 56.1,
+      "EX moderate": 32.0,
+      "EX challenging": 24.5,
+      "Tokens/q": 3922,
+      "LLM calls/q": 1.0,
+      "Median latency (s)": 13.43,
+      "p95 latency (s)": 31.52
+    },
+    {
+      "Config": "B",
+      "n": 500,
+      "EX % (95% CI)": "31.8 [27.8, 36.0]",
+      "EX": 0.318,
+      "Soft F1": 34.9,
+      "EX simple": 49.3,
+      "EX moderate": 25.6,
+      "EX challenging": 21.6,
+      "Tokens/q": 1496,
+      "LLM calls/q": 1.0,
+      "Median latency (s)": 12.39,
+      "p95 latency (s)": 22.2
+    },
+    {
+      "Config": "C",
+      "n": 500,
+      "EX % (95% CI)": "41.4 [37.0, 45.8]",
+      "EX": 0.414,
+      "Soft F1": 44.8,
+      "EX simple": 56.1,
+      "EX moderate": 38.8,
+      "EX challenging": 26.5,
+      "Tokens/q": 1777,
+      "LLM calls/q": 1.0,
+      "Median latency (s)": 16.95,
+      "p95 latency (s)": 28.41
+    },
+    {
+      "Config": "D",
+      "n": 500,
+      "EX % (95% CI)": "45.2 [41.2, 49.4]",
+      "EX": 0.452,
+      "Soft F1": 49.6,
+      "EX simple": 61.5,
+      "EX moderate": 42.4,
+      "EX challenging": 28.4,
+      "Tokens/q": 4122,
+      "LLM calls/q": 1.94,
+      "Median latency (s)": 21.65,
+      "p95 latency (s)": 83.8
+    },
+    {
+      "Config": "E",
+      "n": 500,
+      "EX % (95% CI)": "45.0 [40.6, 49.4]",
+      "EX": 0.45,
+      "Soft F1": 49.5,
+      "EX simple": 58.8,
+      "EX moderate": 42.8,
+      "EX challenging": 30.4,
+      "Tokens/q": 4213,
+      "LLM calls/q": 1.92,
+      "Median latency (s)": 22.37,
+      "p95 latency (s)": 102.71
+    },
+    {
+      "Config": "F",
+      "n": 500,
+      "EX % (95% CI)": "53.8 [49.4, 58.0]",
+      "EX": 0.538,
+      "Soft F1": 57.4,
+      "EX simple": 68.9,
+      "EX moderate": 49.6,
+      "EX challenging": 42.2,
+      "Tokens/q": 4057,
+      "LLM calls/q": 1.86,
+      "Median latency (s)": 59.18,
+      "p95 latency (s)": 260.78
+    },
+    {
+      "Config": "Cg",
+      "n": 500,
+      "EX % (95% CI)": "41.6 [37.4, 46.0]",
+      "EX": 0.416,
+      "Soft F1": 45.4,
+      "EX simple": 57.4,
+      "EX moderate": 39.6,
+      "EX challenging": 23.5,
+      "Tokens/q": 1840,
+      "LLM calls/q": 1.0,
+      "Median latency (s)": 13.21,
+      "p95 latency (s)": 25.32
+    },
+    {
+      "Config": "Cg2",
+      "n": 500,
+      "EX % (95% CI)": "41.0 [36.6, 45.4]",
+      "EX": 0.41,
+      "Soft F1": 44.1,
+      "EX simple": 59.5,
+      "EX moderate": 36.8,
+      "EX challenging": 24.5,
+      "Tokens/q": 1872,
+      "LLM calls/q": 1.0,
+      "Median latency (s)": 32.15,
+      "p95 latency (s)": 45.93
+    },
+    {
+      "Config": "Cf",
+      "n": 500,
+      "EX % (95% CI)": "48.6 [44.4, 52.8]",
+      "EX": 0.486,
+      "Soft F1": 51.3,
+      "EX simple": 64.9,
+      "EX moderate": 44.8,
+      "EX challenging": 34.3,
+      "Tokens/q": 1823,
+      "LLM calls/q": 1.0,
+      "Median latency (s)": 50.38,
+      "p95 latency (s)": 82.93
+    },
+    {
+      "Config": "E2",
+      "n": 500,
+      "EX % (95% CI)": "45.4 [41.2, 50.2]",
+      "EX": 0.454,
+      "Soft F1": 49.5,
+      "EX simple": 60.1,
+      "EX moderate": 42.8,
+      "EX challenging": 30.4,
+      "Tokens/q": 4450,
+      "LLM calls/q": 2.01,
+      "Median latency (s)": 25.84,
+      "p95 latency (s)": 113.16
+    },
+    {
+      "Config": "E_ft",
+      "n": 500,
+      "EX % (95% CI)": "45.0 [40.6, 49.4]",
+      "EX": 0.45,
+      "Soft F1": 49.7,
+      "EX simple": 59.5,
+      "EX moderate": 41.2,
+      "EX challenging": 33.3,
+      "Tokens/q": 4334,
+      "LLM calls/q": 1.97,
+      "Median latency (s)": 12.18,
+      "p95 latency (s)": 54.93
+    },
+    {
+      "Config": "D_full",
+      "n": 500,
+      "EX % (95% CI)": "47.2 [43.2, 51.6]",
+      "EX": 0.472,
+      "Soft F1": 52.1,
+      "EX simple": 62.2,
+      "EX moderate": 46.0,
+      "EX challenging": 28.4,
+      "Tokens/q": 9137,
+      "LLM calls/q": 1.99,
+      "Median latency (s)": 31.57,
+      "p95 latency (s)": 154.61
+    },
+    {
+      "Config": "E_full",
+      "n": 500,
+      "EX % (95% CI)": "48.6 [44.4, 53.0]",
+      "EX": 0.486,
+      "Soft F1": 53.1,
+      "EX simple": 64.9,
+      "EX moderate": 45.2,
+      "EX challenging": 33.3,
+      "Tokens/q": 9088,
+      "LLM calls/q": 1.96,
+      "Median latency (s)": 43.92,
+      "p95 latency (s)": 257.75
+    },
+    {
+      "Config": "E2_full",
+      "n": 500,
+      "EX % (95% CI)": "50.2 [45.8, 54.6]",
+      "EX": 0.502,
+      "Soft F1": 55.3,
+      "EX simple": 66.9,
+      "EX moderate": 46.4,
+      "EX challenging": 35.3,
+      "Tokens/q": 9221,
+      "LLM calls/q": 1.99,
+      "Median latency (s)": 50.37,
+      "p95 latency (s)": 203.72
+    },
+    {
+      "Config": "E_oracle_full",
+      "n": 500,
+      "EX % (95% CI)": "50.0 [45.8, 54.2]",
+      "EX": 0.5,
+      "Soft F1": 54.6,
+      "EX simple": 64.2,
+      "EX moderate": 47.6,
+      "EX challenging": 35.3,
+      "Tokens/q": 9331,
+      "LLM calls/q": 2.0,
+      "Median latency (s)": 31.35,
+      "p95 latency (s)": 118.18
+    },
+    {
+      "Config": "F_full",
+      "n": 500,
+      "EX % (95% CI)": "56.0 [51.8, 60.2]",
+      "EX": 0.56,
+      "Soft F1": 60.2,
+      "EX simple": 68.2,
+      "EX moderate": 53.6,
+      "EX challenging": 44.1,
+      "Tokens/q": 9313,
+      "LLM calls/q": 1.98,
+      "Median latency (s)": 32.39,
+      "p95 latency (s)": 164.13
+    },
+    {
+      "Config": "D_32b",
+      "n": 500,
+      "EX % (95% CI)": "51.0 [46.6, 55.4]",
+      "EX": 0.51,
+      "Soft F1": 55.6,
+      "EX simple": 62.8,
+      "EX moderate": 48.8,
+      "EX challenging": 39.2,
+      "Tokens/q": 2703,
+      "LLM calls/q": 1.2,
+      "Median latency (s)": 52.33,
+      "p95 latency (s)": 161.86
+    },
+    {
+      "Config": "E_32b",
+      "n": 500,
+      "EX % (95% CI)": "51.2 [46.8, 55.4]",
+      "EX": 0.512,
+      "Soft F1": 55.5,
+      "EX simple": 63.5,
+      "EX moderate": 50.4,
+      "EX challenging": 35.3,
+      "Tokens/q": 2768,
+      "LLM calls/q": 1.19,
+      "Median latency (s)": 48.78,
+      "p95 latency (s)": 148.91
+    },
+    {
+      "Config": "F_32b",
+      "n": 500,
+      "EX % (95% CI)": "58.8 [54.4, 63.0]",
+      "EX": 0.588,
+      "Soft F1": 62.9,
+      "EX simple": 67.6,
+      "EX moderate": 56.8,
+      "EX challenging": 51.0,
+      "Tokens/q": 2759,
+      "LLM calls/q": 1.2,
+      "Median latency (s)": 90.88,
+      "p95 latency (s)": 189.63
+    },
+    {
+      "Config": "E2_full_32b",
+      "n": 500,
+      "EX % (95% CI)": "55.4 [51.2, 59.6]",
+      "EX": 0.554,
+      "Soft F1": 60.2,
+      "EX simple": 68.9,
+      "EX moderate": 52.0,
+      "EX challenging": 44.1,
+      "Tokens/q": 5726,
+      "LLM calls/q": 1.19,
+      "Median latency (s)": 92.48,
+      "p95 latency (s)": 249.19
+    }
+  ],
+  "mcnemar": [
+    {
+      "pair": "A vs B",
+      "EX_a": 37.6,
+      "EX_b": 31.8,
+      "only_a": 67,
+      "only_b": 38,
+      "p_value": 0.0060160815152493306
+    },
+    {
+      "pair": "B vs C",
+      "EX_a": 31.8,
+      "EX_b": 41.4,
+      "only_a": 24,
+      "only_b": 72,
+      "p_value": 9.69923242552742e-07
+    },
+    {
+      "pair": "C vs D",
+      "EX_a": 41.4,
+      "EX_b": 45.2,
+      "only_a": 17,
+      "only_b": 36,
+      "p_value": 0.012660335802414213
+    },
+    {
+      "pair": "D vs E",
+      "EX_a": 45.2,
+      "EX_b": 45.0,
+      "only_a": 23,
+      "only_b": 22,
+      "p_value": 1.0
+    },
+    {
+      "pair": "D vs E2",
+      "EX_a": 45.2,
+      "EX_b": 45.4,
+      "only_a": 28,
+      "only_b": 29,
+      "p_value": 1.0
+    },
+    {
+      "pair": "D vs F",
+      "EX_a": 45.2,
+      "EX_b": 53.8,
+      "only_a": 22,
+      "only_b": 65,
+      "p_value": 4.348703111758687e-06
+    },
+    {
+      "pair": "E vs F",
+      "EX_a": 45.0,
+      "EX_b": 53.8,
+      "only_a": 23,
+      "only_b": 67,
+      "p_value": 3.7950491781678e-06
+    },
+    {
+      "pair": "C vs Cg",
+      "EX_a": 41.4,
+      "EX_b": 41.6,
+      "only_a": 27,
+      "only_b": 28,
+      "p_value": 1.0
+    },
+    {
+      "pair": "C vs Cg2",
+      "EX_a": 41.4,
+      "EX_b": 41.0,
+      "only_a": 30,
+      "only_b": 28,
+      "p_value": 0.8956832138895906
+    },
+    {
+      "pair": "C vs Cf",
+      "EX_a": 41.4,
+      "EX_b": 48.6,
+      "only_a": 25,
+      "only_b": 61,
+      "p_value": 0.00013037942991199537
+    },
+    {
+      "pair": "E vs E2",
+      "EX_a": 45.0,
+      "EX_b": 45.4,
+      "only_a": 16,
+      "only_b": 18,
+      "p_value": 0.8641662404406816
+    },
+    {
+      "pair": "E vs E_ft",
+      "EX_a": 45.0,
+      "EX_b": 45.0,
+      "only_a": 16,
+      "only_b": 16,
+      "p_value": 1.0
+    },
+    {
+      "pair": "A vs D_full",
+      "EX_a": 37.6,
+      "EX_b": 47.2,
+      "only_a": 24,
+      "only_b": 72,
+      "p_value": 9.69923242552742e-07
+    },
+    {
+      "pair": "D vs D_full",
+      "EX_a": 45.2,
+      "EX_b": 47.2,
+      "only_a": 29,
+      "only_b": 39,
+      "p_value": 0.2749903961710005
+    },
+    {
+      "pair": "D_full vs E_full",
+      "EX_a": 47.2,
+      "EX_b": 48.6,
+      "only_a": 19,
+      "only_b": 26,
+      "p_value": 0.3712980344710104
+    },
+    {
+      "pair": "D_full vs E2_full",
+      "EX_a": 47.2,
+      "EX_b": 50.2,
+      "only_a": 18,
+      "only_b": 33,
+      "p_value": 0.04887389231827033
+    },
+    {
+      "pair": "E_full vs E2_full",
+      "EX_a": 48.6,
+      "EX_b": 50.2,
+      "only_a": 18,
+      "only_b": 26,
+      "p_value": 0.2912152365458951
+    },
+    {
+      "pair": "E2_full vs F_full",
+      "EX_a": 50.2,
+      "EX_b": 56.0,
+      "only_a": 24,
+      "only_b": 53,
+      "p_value": 0.0012632268710478355
+    },
+    {
+      "pair": "E2_full vs E_oracle_full",
+      "EX_a": 50.2,
+      "EX_b": 50.0,
+      "only_a": 22,
+      "only_b": 21,
+      "p_value": 1.0
+    },
+    {
+      "pair": "E_oracle_full vs F_full",
+      "EX_a": 50.0,
+      "EX_b": 56.0,
+      "only_a": 20,
+      "only_b": 50,
+      "p_value": 0.00044028500651396835
+    },
+    {
+      "pair": "D_32b vs E_32b",
+      "EX_a": 51.0,
+      "EX_b": 51.2,
+      "only_a": 12,
+      "only_b": 13,
+      "p_value": 1.0
+    },
+    {
+      "pair": "E2_full vs E2_full_32b",
+      "EX_a": 50.2,
+      "EX_b": 55.4,
+      "only_a": 18,
+      "only_b": 44,
+      "p_value": 0.0012990027709550095
+    }
+  ],
+  "gap_closed": {
+    "7B agent, top-15 schema, glossary top-3 (D/E/F)": {
+      "gap_closed": -0.023255813953488386,
+      "ci95": [
+        -0.37938640973630866,
+        0.2799999999999996
+      ],
+      "n": 500
+    },
+    "7B agent, top-15 schema, glossary def+q top-5 (D/E2/F)": {
+      "gap_closed": 0.023255813953488386,
+      "ci95": [
+        -0.37891891891891816,
+        0.3421733212341199
+      ],
+      "n": 500
+    },
+    "7B agent, full schema, glossary top-3": {
+      "gap_closed": 0.1590909090909091,
+      "ci95": [
+        -0.18765120967741947,
+        0.44906462585033974
+      ],
+      "n": 500
+    },
+    "7B agent, full schema, glossary def+q top-5": {
+      "gap_closed": 0.3409090909090909,
+      "ci95": [
+        0.02777777777777782,
+        0.6597517730496459
+      ],
+      "n": 500
+    },
+    "7B agent, full schema, ORACLE glossary retrieval": {
+      "gap_closed": 0.3181818181818182,
+      "ci95": [
+        0.0,
+        0.6
+      ],
+      "n": 500
+    },
+    "7B single-shot, glossary top-3 (C/Cg/Cf)": {
+      "gap_closed": 0.0277777777777778,
+      "ci95": [
+        -0.5185990338164257,
+        0.40010638297872364
+      ],
+      "n": 500
+    },
+    "7B single-shot, glossary def+q top-5": {
+      "gap_closed": -0.0555555555555556,
+      "ci95": [
+        -0.6860714285714283,
+        0.33333333333333304
+      ],
+      "n": 500
+    },
+    "32B agent, top-15 schema, glossary top-3": {
+      "gap_closed": 0.02564102564102568,
+      "ci95": [
+        -0.29041745730550333,
+        0.25000000000000033
+      ],
+      "n": 500
+    }
+  },
+  "calibration": {
+    "E2_full: vote agreement": [
+      {
+        "alpha": 0.1,
+        "delta": 0.1,
+        "target_accuracy": 0.9,
+        "mean_accuracy_answered": NaN,
+        "mean_coverage": 0.0,
+        "violation_rate": 0.0,
+        "mean_threshold": NaN,
+        "abstain_all_rate": 1.0
+      },
+      {
+        "alpha": 0.2,
+        "delta": 0.1,
+        "target_accuracy": 0.8,
+        "mean_accuracy_answered": NaN,
+        "mean_coverage": 0.0,
+        "violation_rate": 0.0,
+        "mean_threshold": NaN,
+        "abstain_all_rate": 1.0
+      },
+      {
+        "alpha": 0.25,
+        "delta": 0.1,
+        "target_accuracy": 0.75,
+        "mean_accuracy_answered": 0.7021931345353676,
+        "mean_coverage": 0.0086,
+        "violation_rate": 0.02,
+        "mean_threshold": 1.0,
+        "abstain_all_rate": 0.98
+      },
+      {
+        "alpha": 0.3,
+        "delta": 0.1,
+        "target_accuracy": 0.7,
+        "mean_accuracy_answered": 0.7336486733956065,
+        "mean_coverage": 0.21156000000000003,
+        "violation_rate": 0.01,
+        "mean_threshold": 1.0,
+        "abstain_all_rate": 0.51
+      }
+    ],
+    "E2_full: logistic regression": [
+      {
+        "alpha": 0.1,
+        "delta": 0.1,
+        "target_accuracy": 0.9,
+        "mean_accuracy_answered": NaN,
+        "mean_coverage": 0.0,
+        "violation_rate": 0.0,
+        "mean_threshold": NaN,
+        "abstain_all_rate": 1.0
+      },
+      {
+        "alpha": 0.2,
+        "delta": 0.1,
+        "target_accuracy": 0.8,
+        "mean_accuracy_answered": 0.6,
+        "mean_coverage": 0.0016,
+        "violation_rate": 0.01,
+        "mean_threshold": 0.8,
+        "abstain_all_rate": 0.99
+      },
+      {
+        "alpha": 0.25,
+        "delta": 0.1,
+        "target_accuracy": 0.75,
+        "mean_accuracy_answered": 0.7575323346729996,
+        "mean_coverage": 0.02084,
+        "violation_rate": 0.02,
+        "mean_threshold": 0.6799999999999999,
+        "abstain_all_rate": 0.95
+      },
+      {
+        "alpha": 0.3,
+        "delta": 0.1,
+        "target_accuracy": 0.7,
+        "mean_accuracy_answered": 0.7368428793576414,
+        "mean_coverage": 0.20724,
+        "violation_rate": 0.09,
+        "mean_threshold": 0.5607142857142857,
+        "abstain_all_rate": 0.58
+      }
+    ],
+    "E2_full: gradient boosting": [
+      {
+        "alpha": 0.1,
+        "delta": 0.1,
+        "target_accuracy": 0.9,
+        "mean_accuracy_answered": NaN,
+        "mean_coverage": 0.0,
+        "violation_rate": 0.0,
+        "mean_threshold": NaN,
+        "abstain_all_rate": 1.0
+      },
+      {
+        "alpha": 0.2,
+        "delta": 0.1,
+        "target_accuracy": 0.8,
+        "mean_accuracy_answered": 0.7620967741935484,
+        "mean_coverage": 0.0070799999999999995,
+        "violation_rate": 0.02,
+        "mean_threshold": 0.7,
+        "abstain_all_rate": 0.98
+      },
+      {
+        "alpha": 0.25,
+        "delta": 0.1,
+        "target_accuracy": 0.75,
+        "mean_accuracy_answered": 0.7621485656689738,
+        "mean_coverage": 0.07292,
+        "violation_rate": 0.08,
+        "mean_threshold": 0.661111111111111,
+        "abstain_all_rate": 0.82
+      },
+      {
+        "alpha": 0.3,
+        "delta": 0.1,
+        "target_accuracy": 0.7,
+        "mean_accuracy_answered": 0.7334394723431451,
+        "mean_coverage": 0.22719999999999999,
+        "violation_rate": 0.1,
+        "mean_threshold": 0.5760416666666667,
+        "abstain_all_rate": 0.52
+      }
+    ],
+    "E2_full_32b: vote agreement": [
+      {
+        "alpha": 0.1,
+        "delta": 0.1,
+        "target_accuracy": 0.9,
+        "mean_accuracy_answered": NaN,
+        "mean_coverage": 0.0,
+        "violation_rate": 0.0,
+        "mean_threshold": NaN,
+        "abstain_all_rate": 1.0
+      },
+      {
+        "alpha": 0.2,
+        "delta": 0.1,
+        "target_accuracy": 0.8,
+        "mean_accuracy_answered": NaN,
+        "mean_coverage": 0.0,
+        "violation_rate": 0.0,
+        "mean_threshold": NaN,
+        "abstain_all_rate": 1.0
+      },
+      {
+        "alpha": 0.25,
+        "delta": 0.1,
+        "target_accuracy": 0.75,
+        "mean_accuracy_answered": NaN,
+        "mean_coverage": 0.0,
+        "violation_rate": 0.0,
+        "mean_threshold": NaN,
+        "abstain_all_rate": 1.0
+      },
+      {
+        "alpha": 0.3,
+        "delta": 0.1,
+        "target_accuracy": 0.7,
+        "mean_accuracy_answered": 0.6763620924984707,
+        "mean_coverage": 0.06428,
+        "violation_rate": 0.1,
+        "mean_threshold": 1.0,
+        "abstain_all_rate": 0.9
+      }
+    ],
+    "demo_threshold_alpha0.3": {
+      "threshold": 1.0,
+      "tested": [
+        [
+          1.0,
+          218,
+          53,
+          0.0373576541864931,
+          true
+        ],
+        [
+          0.8,
+          300,
+          93,
+          0.6727880412189362,
+          false
+        ]
+      ]
+    }
+  }
+}
