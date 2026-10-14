@@ -30,5 +30,7 @@ the design log (read it before changing anything structural).
 - Rebuild schema/value indexes: `python -m glossarysql.ingest.schema`
 - One experiment: `python -m glossarysql.eval.run --config configs/E.yaml [--limit 20]`
 - Retrieval metrics: `python -m glossarysql.eval.retrieval_metrics --schema-embedder models/bge-small-bird-schema/best`
-- Extension B: `python -m glossarysql.training.confidence --run E_full`
+- Extension B: `python -m glossarysql.training.confidence --run E2_full`
 - All tables/figures: `python -m glossarysql.eval.report`
+- Official BIRD scorer cross-check: `python -m glossarysql.eval.official_check --run E2_full`
+- Demo: `srun --jobid=<id> --overlap -n1 scripts/run_app.sh` (port 7860 on the compute node)

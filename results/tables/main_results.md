@@ -19,4 +19,6 @@
 | D_32b | D with the stronger Qwen2.5-Coder-32B-Instruct-AWQ (final check) | 500 | 51.0 [46.6, 55.4] | 55.6 | 62.8 | 48.8 | 39.2 | 2703 | 1.2 | 52.33 | 161.86 |
 | E_32b | E with the stronger Qwen2.5-Coder-32B-Instruct-AWQ (final check) | 500 | 51.2 [46.8, 55.4] | 55.5 | 63.5 | 50.4 | 35.3 | 2768 | 1.19 | 48.78 | 148.91 |
 | F_32b | F with the stronger Qwen2.5-Coder-32B-Instruct-AWQ (final check) | 500 | 58.8 [54.4, 63.0] | 62.9 | 67.6 | 56.8 | 51.0 | 2759 | 1.2 | 90.88 | 189.63 |
+| D_full_32b | D_full with the stronger Qwen2.5-Coder-32B-Instruct-AWQ (final check) | 500 | 55.0 [50.8, 59.0] | 59.3 | 66.2 | 54.4 | 40.2 | 5510 | 1.16 | 77.25 | 173.5 |
 | E2_full_32b | E2_full with the stronger Qwen2.5-Coder-32B-Instruct-AWQ (final check) | 500 | 55.4 [51.2, 59.6] | 60.2 | 68.9 | 52.0 | 44.1 | 5726 | 1.19 | 92.48 | 249.19 |
+| F_full_32b | F_full with the stronger Qwen2.5-Coder-32B-Instruct-AWQ (final check) | 500 | 62.8 [58.6, 67.0] | 67.4 | 71.6 | 62.4 | 51.0 | 5336 | 1.12 | 80.31 | 160.6 |

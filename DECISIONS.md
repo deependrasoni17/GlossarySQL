@@ -113,3 +113,7 @@ What was chosen, what failed, and why. Times are from the build session (15 Oct 
 - **Demo knowledge.** The demo indexes all 500 Mini-Dev questions as knowledge, but excludes a
   question's own glossary entries and solved example when that exact question is asked, so the
   example questions do not answer themselves.
+- **Official-script cross-check.** BIRD's unmodified `evaluation_ex.py` scores E2_full at 50.00% vs our
+  50.20%. The only difference is q701: our prediction is correct and runs in 0.1 s, but the official
+  script runs gold and prediction under one 30 s limit, and the gold query alone needs ~4 minutes.
+  Our gold results are cached with a 10-minute limit, so that question is scored on its merits.

@@ -267,6 +267,20 @@
       "p95 latency (s)": 189.63
     },
     {
+      "Config": "D_full_32b",
+      "n": 500,
+      "EX % (95% CI)": "55.0 [50.8, 59.0]",
+      "EX": 0.55,
+      "Soft F1": 59.3,
+      "EX simple": 66.2,
+      "EX moderate": 54.4,
+      "EX challenging": 40.2,
+      "Tokens/q": 5510,
+      "LLM calls/q": 1.16,
+      "Median latency (s)": 77.25,
+      "p95 latency (s)": 173.5
+    },
+    {
       "Config": "E2_full_32b",
       "n": 500,
       "EX % (95% CI)": "55.4 [51.2, 59.6]",
@@ -279,6 +293,20 @@
       "LLM calls/q": 1.19,
       "Median latency (s)": 92.48,
       "p95 latency (s)": 249.19
+    },
+    {
+      "Config": "F_full_32b",
+      "n": 500,
+      "EX % (95% CI)": "62.8 [58.6, 67.0]",
+      "EX": 0.628,
+      "Soft F1": 67.4,
+      "EX simple": 71.6,
+      "EX moderate": 62.4,
+      "EX challenging": 51.0,
+      "Tokens/q": 5336,
+      "LLM calls/q": 1.12,
+      "Median latency (s)": 80.31,
+      "p95 latency (s)": 160.6
     }
   ],
   "mcnemar": [
@@ -451,6 +479,14 @@
       "p_value": 1.0
     },
     {
+      "pair": "D_full_32b vs E2_full_32b",
+      "EX_a": 55.0,
+      "EX_b": 55.4,
+      "only_a": 15,
+      "only_b": 17,
+      "p_value": 0.860050065908581
+    },
+    {
       "pair": "E2_full vs E2_full_32b",
       "EX_a": 50.2,
       "EX_b": 55.4,
@@ -521,6 +557,14 @@
       "ci95": [
         -0.29041745730550333,
         0.25000000000000033
+      ],
+      "n": 500
+    },
+    "32B agent, full schema, glossary def+q top-5": {
+      "gap_closed": 0.05128205128205136,
+      "ci95": [
+        -0.2813616071428554,
+        0.3235492845786963
       ],
       "n": 500
     }

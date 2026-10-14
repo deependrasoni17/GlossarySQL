@@ -25,9 +25,10 @@ intervals. Each question is evaluated once, never seeing its own hint or SQL (tw
 | **E2_full. D_full + retrieved glossary definitions (proposed)** | **50.2 [45.8, 54.6]** |
 | F_full. D_full + the benchmark's perfect hints (upper bound) | 56.0 [51.8, 60.2] |
 
-- **Retrieved definitions close 34% of the gap between no hints and perfect hints** (95% CI 3-66%;
-  McNemar p = 0.049 for D_full vs E2_full). This is a modest, borderline-significant effect, and it
-  depends on the setup (see RQ1).
+- **With the 7B model, retrieved definitions close 34% of the gap between no hints and perfect hints**
+  (95% CI 3-66%; McNemar p = 0.049 for D_full vs E2_full). The effect is modest, borderline
+  significant and setup-dependent: **with the 32B model it shrinks to 5%** (95% CI −28 to 32%,
+  p = 0.86), and with top-15 schema retrieval it is ~0 for both models (see RQ1).
 - **The glossary, not the retriever, is the bottleneck.** An *oracle* retriever over the same glossary
   scores 50.0%, no better than the real one (50.2%). The remaining gap is definitions nobody wrote
   down: only 30% of questions have all of their definitions somewhere in the glossary. The largest
@@ -90,6 +91,10 @@ flowchart TD
   Every LLM call is cached on disk, keyed by the exact request.
 - **Metrics**: EX and Soft F1, following BIRD Mini-Dev's official `evaluation_ex.py` and
   `evaluation_f1.py`; 1,000-sample bootstrap CIs; McNemar's exact test for paired comparisons.
+  Cross-check: the unmodified official script scores E2_full at 50.0% against our 50.2%. The one
+  question of difference (q701) is predicted correctly in 0.1 s, but its *gold* query takes ~4
+  minutes in SQLite, so the official 30 s limit marks it wrong regardless of the prediction
+  (`python -m glossarysql.eval.official_check`).
 
 ## Results
 
@@ -132,8 +137,9 @@ gap closed = (EX_E − EX_D) / (EX_F − EX_D), with a paired-bootstrap 95% CI.
 | 7B agent, full schema, glossary top-3 | 47.2 | 48.6 | 56.0 | 16% [−19, 45] |
 | **7B agent, full schema, glossary def+q top-5** | **47.2** | **50.2** | **56.0** | **34% [3, 66]** |
 | 7B single query, glossary top-3 (C / Cg / Cf) | 41.4 | 41.6 | 48.6 | 3% [−52, 40] |
-| 32B agent, top-15 schema, glossary top-3 | 51.0 | 51.2 | 58.8 | 3% |
-| 32B agent, full schema, glossary def+q top-5 | 32B_D_FULL | 55.4 | 32B_F_FULL | 32B_GAP |
+| 7B agent, full schema, *oracle* glossary retrieval | 47.2 | 50.0 | 56.0 | 32% [0, 60] |
+| 32B agent, top-15 schema, glossary top-3 | 51.0 | 51.2 | 58.8 | 3% [−29, 25] |
+| 32B agent, full schema, glossary def+q top-5 | 55.0 | 55.4 | 62.8 | 5% [−28, 32] |
 
 "def+q top-5" indexes each definition together with the questions it was written for and retrieves
 five. It was chosen after the first E result, by leave-one-out on the *knowledge* half only
@@ -184,7 +190,10 @@ strictest threshold down, with δ = 0.1. The evaluation repeats a random 50/50 c
 The guarantee holds in every setting (violation rate ≤ δ), but coverage is low. Unanimous answers
 are right 75.7% of the time (218 questions), so an 80% target cannot be certified from ~250
 calibration questions, and the honest behaviour is to abstain. The 32B model is unanimous more often
-(321 of 500) but unanimity is *less* reliable (71.7%), so it calibrates worse. Full table:
+(321 of 500) but unanimity is *less* reliable (71.7%), so it calibrates worse, even though its whole
+risk-coverage curve sits lower. "Mean coverage" averages over all 100 splits, including those where
+nothing could be certified (coverage 0). For example, unanimous answers cover 43.6% of questions,
+but at α = 0.3 that threshold is certified in only ~half of the splits. Full table:
 `results/tables/calibration.md`.
 
 ![Risk-coverage](results/figures/risk_coverage.png)
@@ -225,9 +234,20 @@ The largest standardised coefficients: an empty result (−1.25) and the number 
 
 ### Stronger model check
 
-With Qwen2.5-Coder-32B-Instruct-AWQ, the best configuration (E2_full) reaches 55.4% EX vs 50.2%
-for 7B. With top-15 schema retrieval the glossary again adds nothing (D_32b 51.0, E_32b 51.2,
-F_32b 58.8).
+Qwen2.5-Coder-32B-Instruct-AWQ, same pipeline:
+
+| Config | 7B EX | 32B EX |
+|---|---|---|
+| D_full (no definitions) | 47.2 | 55.0 [50.8, 59.0] |
+| E2_full (retrieved glossary) | 50.2 | 55.4 [51.2, 59.6] |
+| F_full (perfect hints) | 56.0 | 62.8 [58.6, 67.0] |
+
+The stronger model gains 5.2 points on the best configuration (p = 0.001) and needs fewer repairs
+(1.2 LLM calls per question vs 2.0). The hint gap stays (7.8 points), but the retrieved glossary no
+longer closes it (+0.4, p = 0.86). One plausible explanation, not tested here: the 32B model
+already infers the easy, generic definitions (name formats, simple filters) that make up much of the
+glossary's useful overlap. What remains would then be question-specific rules the glossary does not
+contain, which is the coverage problem again.
 
 ## Demo
 
@@ -295,6 +315,9 @@ results/                tables and figures (per-question run files are kept out 
   first results. They were chosen without evaluation accuracy (full schema = baseline A's setting;
   def+q by leave-one-out on the knowledge half), but they are still choices made after seeing
   results. Many comparisons are reported, and p-values are not corrected for that.
+- **The main effect does not replicate at 32B.** The 34% gap closed is a 7B result; with the 32B
+  model, retrieved definitions add 0.4 points (n.s.). Treat RQ1's answer as "it helps a small model
+  somewhat, when the full schema is visible", not as a general finding.
 - **Small evaluation set.** 500 questions give ±4-point intervals; most single-component differences
   of 1-3 points are not significant, and the table says so.
 - **One benchmark, one dialect** (BIRD Mini-Dev, SQLite). About 14% of the labelled failures were gold

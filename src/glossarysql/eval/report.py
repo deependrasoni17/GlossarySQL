@@ -136,17 +136,20 @@ def calibration(runs, extra_scores: dict[str, np.ndarray] | None = None) -> dict
     ax.grid(axis="x", color=GRID, linewidth=0.8)
     for (label, conf, corr, _), color in zip(curves, (BLUE, ORANGE, AQUA, "#6250d6")):
         cov, risk = risk_coverage(conf, corr)
-        ax.plot(100 * cov, 100 * risk, color=color, linewidth=2, marker="o" if len(cov) < 8 else None,
-                markersize=6, label=label)
+        keep = cov >= 0.05  # below ~25 answered questions the curve is noise
+        ax.plot(100 * cov[keep], 100 * risk[keep], color=color, linewidth=2,
+                marker="o" if len(cov) < 8 else None, markersize=6, label=label)
         for r in out[label]:
-            if not np.isnan(r["mean_threshold"]) and r["mean_coverage"] > 0.01:
-                ax.scatter(100 * r["mean_coverage"], 100 * (1 - r["mean_accuracy_answered"]), s=70,
-                           color=color, edgecolor=SURFACE, linewidth=2, zorder=5)
-                ax.annotate(f"α={r['alpha']}", (100 * r["mean_coverage"], 100 * (1 - r["mean_accuracy_answered"])),
-                            xytext=(6, -12), textcoords="offset points", fontsize=8, color=INK2)
+            if not np.isnan(r["mean_threshold"]) and r["mean_coverage"] > 0.05:
+                x, y = 100 * r["mean_coverage"], 100 * (1 - r["mean_accuracy_answered"])
+                ax.scatter(x, y, s=80, marker="D", color=color, edgecolor=INK, linewidth=0.8, zorder=5)
+                if "vote agreement" in label:
+                    ax.annotate(f"LTT α={r['alpha']}", (x, y), xytext=(8, 8), textcoords="offset points",
+                                fontsize=8, color=INK2)
+    ax.set_ylim(0, 60)
     ax.set_xlabel("Coverage: share of questions answered (%)", color=INK2, fontsize=9)
     ax.set_ylabel("Error on answered questions (%)", color=INK2, fontsize=9)
-    ax.set_title("Risk-coverage (dots: Learn-then-Test operating points, mean of 100 splits)",
+    ax.set_title("Risk-coverage (diamonds: Learn-then-Test operating points, mean of 100 splits)",
                  fontsize=9, color=INK, loc="left")
     ax.legend(frameon=False, fontsize=7.5, labelcolor=INK2)
     fig.tight_layout()
@@ -166,6 +169,10 @@ def main() -> None:
     show = table.drop(columns=["EX"])
     (paths.TABLES / "main_results.md").write_text(to_markdown(show))
     table.to_csv(paths.TABLES / "main_results.csv", index=False)
+    # Compact per-question predictions for every complete run (the full run files stay out of git).
+    preds = pd.concat([df[["db_id", "difficulty", "pred_sql", "ex", "f1", "confidence"]].assign(config=n)
+                       for n, df in runs.items()]).reset_index()
+    preds.to_csv(paths.RESULTS / "predictions.csv.gz", index=False)
     summary = {"main": table.drop(columns=["What it adds"]).to_dict(orient="records")}
 
     sig = []
