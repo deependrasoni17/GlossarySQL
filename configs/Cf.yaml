@@ -1,0 +1,4 @@
+extends: C
+name: Cf
+description: C + the benchmark's expert hint, single shot (upper bound without the agent loop)
+perfect_hints: true

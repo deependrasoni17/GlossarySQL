@@ -1,0 +1,4 @@
+extends: D
+name: E
+description: D + 3 retrieved glossary definitions (proposed system)
+glossary_k: 3

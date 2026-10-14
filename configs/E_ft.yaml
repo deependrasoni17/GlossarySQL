@@ -1,0 +1,4 @@
+extends: E
+name: E_ft
+description: E with the contrastively fine-tuned schema retriever (Extension A)
+schema_embedder: /scratch/m25csa016/glossarysql/models/bge-small-bird-schema/best

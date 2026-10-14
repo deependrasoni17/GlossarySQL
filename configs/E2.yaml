@@ -1,0 +1,5 @@
+extends: E
+name: E2
+description: E with improved glossary retrieval (definitions indexed with the questions they were written for, top-5); chosen by leave-one-out on the knowledge half
+glossary_k: 5
+glossary_index: def+q

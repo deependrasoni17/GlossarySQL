@@ -1,0 +1,14 @@
+name: A
+description: Full schema in the prompt, one query, no hints (lower baseline)
+schema_mode: full
+value_matching: false
+examples_k: 0
+glossary_k: 0
+perfect_hints: false
+n_candidates: 1
+temperature: 0.0
+max_repairs: 0
+max_tokens: 768
+sql_timeout: 30
+threshold: 0.0
+explain: false

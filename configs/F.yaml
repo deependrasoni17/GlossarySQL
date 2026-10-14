@@ -1,0 +1,4 @@
+extends: D
+name: F
+description: D + the benchmark's expert hint for the question (upper bound)
+perfect_hints: true

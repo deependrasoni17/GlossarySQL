@@ -1,0 +1,6 @@
+extends: C
+name: D
+description: + execute/repair loop (max 2) and 5-candidate result voting (best system without definitions)
+n_candidates: 5
+temperature: 0.7
+max_repairs: 2

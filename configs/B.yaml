@@ -1,0 +1,7 @@
+extends: A
+name: B
+description: + schema retrieval (top-15 columns + keys) and value matching
+schema_mode: retrieved
+schema_k: 15
+value_matching: true
+value_k: 8

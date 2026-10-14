@@ -1,0 +1,4 @@
+extends: B
+name: C
+description: + 3 retrieved solved examples
+examples_k: 3

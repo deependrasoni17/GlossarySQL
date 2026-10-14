@@ -1,0 +1,4 @@
+extends: C
+name: Cg
+description: C + 3 retrieved glossary definitions, single shot (glossary without the agent loop)
+glossary_k: 3

@@ -1,0 +1,4 @@
+extends: E
+name: E_full
+description: E with the full schema in the prompt instead of top-15 schema retrieval (values and examples still retrieved)
+schema_mode: full

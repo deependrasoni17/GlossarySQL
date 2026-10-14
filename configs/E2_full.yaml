@@ -1,0 +1,4 @@
+extends: E2
+name: E2_full
+description: E2 with the full schema in the prompt
+schema_mode: full

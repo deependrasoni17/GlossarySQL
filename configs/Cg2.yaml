@@ -1,0 +1,5 @@
+extends: Cg
+name: Cg2
+description: Cg with improved glossary retrieval (def+q index, top-5), single shot
+glossary_k: 5
+glossary_index: def+q

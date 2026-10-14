@@ -1,0 +1,23 @@
+[project]
+name = "glossarysql"
+version = "0.1.0"
+description = "Agentic text-to-SQL analyst that retrieves business definitions instead of using benchmark hints"
+requires-python = ">=3.11"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint.per-file-ignores]
+"src/glossarysql/agent/prompts.py" = ["E501"]  # prompt text is kept byte-identical (it is part of the LLM cache key)
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E731", "B905"]  # zips below pair lists that are equal-length by construction

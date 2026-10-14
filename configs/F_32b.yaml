@@ -1,0 +1,5 @@
+extends: F
+name: F_32b
+description: F with the stronger Qwen2.5-Coder-32B-Instruct-AWQ (final check)
+base_url: http://cn07:8001/v1
+model: Qwen/Qwen2.5-Coder-32B-Instruct-AWQ
