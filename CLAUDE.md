@@ -13,9 +13,9 @@ the design log (read it before changing anything structural).
   `*_full` use the full schema; `*_32b` use Qwen2.5-Coder-32B-AWQ; `E_ft` uses the fine-tuned retriever.
 - `app/app.py` - Gradio demo. `tests/` - pytest. `results/` - tables/figures (runs/*.jsonl are gitignored).
 
-## Environment (IITJ HPC, user m25csa016)
-- Project lives on scratch: `/scratch/m25csa016/glossarysql` (`~/glossarysql` is a symlink). Home quota is nearly full.
-- Always `export PYTHONNOUSERSITE=1` (packages in `~/.local` break the envs) and `HF_HOME=/scratch/m25csa016/hf_cache`.
+## Environment (IITJ HPC, user m23ma2005)
+- Project lives on scratch: `/scratch/m23ma2005/glossarysql` (`~/glossarysql` is a symlink). Home quota is nearly full.
+- Always `export PYTHONNOUSERSITE=1` (packages in `~/.local` break the envs) and `HF_HOME=/scratch/m23ma2005/hf_cache`.
 - `envs/app` (py3.11, torch 2.5 CPU use, LangChain/LangGraph, faiss, gradio) runs the agent, eval and app.
 - `envs/serve2` (py3.12, vLLM 0.10.2, torch 2.8 cu128, sentence-transformers 5) serves LLMs and trains on GPU.
   `envs/serve` (vLLM 0.7.3) only works on the A30 nodes (cn01-05), not on Blackwell cn07.
